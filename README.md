@@ -1,8 +1,8 @@
-﻿# learneando
-Proyectos de curiosidades y/o aprendizajes. 
+﻿# Learneandoç
+ 
+## Repositorio de proyectos variados sobre curiosidades y/o aprendizajes. 
 
 ### WorldCup2026
-## Descripción
 
 **Predicciones Mundial 2026** es una aplicación web que consulta los partidos de la Copa del Mundo y genera pronósticos automáticos utilizando un sistema de valoración de selecciones inspirado en el método Elo. La aplicación obtiene los encuentros disponibles mediante la API de API-Football y calcula probabilidades de victoria, resultados esperados y marcadores estimados a partir de una tabla interna de ratings de fuerza configurable.
 
