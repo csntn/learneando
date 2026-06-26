@@ -68,52 +68,95 @@ function renderPredictions(predictions) {
       const ratings = extractRatings(p.reasoning);
       const homeRating = ratings[0] || "—";
       const awayRating = ratings[1] || "—";
-      const homeProb = extractHomeProb(p.reasoning);
-      const awayProb = 100 - homeProb;
+      const homeProbRaw = extractHomeProb(p.reasoning);
+      const conf = p.confidence;
+
+      let drawProb, homeProb, awayProb;
+
+      if (p.predictedResult === "DRAW") {
+        drawProb = 38;
+        homeProb = 31;
+        awayProb = 31;
+      } else {
+        drawProb = Math.round(24 - (conf - 0.5) * 28);
+        if (drawProb < 10) drawProb = 10;
+        if (drawProb > 28) drawProb = 28;
+        const remaining = 100 - drawProb;
+        homeProb = Math.round(homeProbRaw * remaining / 100);
+        awayProb = remaining - homeProb;
+      }
+
+      const homeOdds = homeProb > 0 ? (100 / homeProb).toFixed(2) : "—";
+      const drawOdds = drawProb > 0 ? (100 / drawProb).toFixed(2) : "—";
+      const awayOdds = awayProb > 0 ? (100 / awayProb).toFixed(2) : "—";
 
       let topClass, verdictClass, verdictText;
       if (p.predictedResult === "HOME_WIN") {
-        topClass = "top-home"; verdictClass = "v-home";
-        verdictText = `🏆 Gana ${p.winner}`;
+        topClass = "top-home";
+        verdictClass = "v-home";
+        verdictText = `1  ${p.homeTeam}`;
       } else if (p.predictedResult === "AWAY_WIN") {
-        topClass = "top-away"; verdictClass = "v-away";
-        verdictText = `🏆 Gana ${p.winner}`;
+        topClass = "top-away";
+        verdictClass = "v-away";
+        verdictText = `2  ${p.awayTeam}`;
       } else {
-        topClass = "top-draw"; verdictClass = "v-draw";
-        verdictText = "🤝 Empate probable";
+        topClass = "top-draw";
+        verdictClass = "v-draw";
+        verdictText = "X  Empate";
       }
 
       const [hg, ag] = p.predictedScore.split("-");
+      const confPct = Math.round(conf * 100);
 
       return `
         <div class="card">
           <div class="card-top ${topClass}"></div>
-          <div class="round">Predicción · Confianza ${Math.round(p.confidence * 100)}%</div>
-
-          <div class="matchup">
-            <div class="team">
-              <div class="name">${p.homeTeam}</div>
-              <div class="rating">Rating ${homeRating}</div>
+          <div class="card-body">
+            <div class="card-header">
+              <span>Pronóstico</span>
+              <span class="badge">Conf. ${confPct}%</span>
             </div>
-            <div class="score">${hg} - ${ag}</div>
-            <div class="team">
-              <div class="name">${p.awayTeam}</div>
-              <div class="rating">Rating ${awayRating}</div>
+
+            <div class="matchup">
+              <div class="team-block">
+                <div class="name">${p.homeTeam}</div>
+                <div class="meta">${homeRating}</div>
+              </div>
+              <div class="score-block">${hg}:${ag}</div>
+              <div class="team-block">
+                <div class="name">${p.awayTeam}</div>
+                <div class="meta">${awayRating}</div>
+              </div>
             </div>
-          </div>
 
-          <div class="verdict ${verdictClass}">${verdictText}</div>
+            <div class="odds-row">
+              <div class="odds-cell${p.predictedResult === 'HOME_WIN' ? ' active-home' : ''}">
+                <span class="label">1</span>
+                <span class="value">${homeOdds}</span>
+              </div>
+              <div class="odds-cell${p.predictedResult === 'DRAW' ? ' active-draw' : ''}">
+                <span class="label">X</span>
+                <span class="value">${drawOdds}</span>
+              </div>
+              <div class="odds-cell${p.predictedResult === 'AWAY_WIN' ? ' active-away' : ''}">
+                <span class="label">2</span>
+                <span class="value">${awayOdds}</span>
+              </div>
+            </div>
 
-          <div class="probbar">
-            <div class="prob-home" style="width:${homeProb}%"></div>
-            <div class="prob-away" style="width:${awayProb}%"></div>
-          </div>
-          <div class="prob-labels">
-            <span>${p.homeTeam} ${homeProb}%</span>
-            <span>${p.awayTeam} ${awayProb}%</span>
-          </div>
+            <div class="verdict ${verdictClass}">${verdictText}</div>
 
-          <div class="reason">${p.reasoning}</div>
+            <div class="prob-bar">
+              <div class="prob-home" style="width:${homeProb}%"></div>
+              <div class="prob-away" style="width:${awayProb}%"></div>
+            </div>
+            <div class="prob-labels">
+              <span>${p.homeTeam} ${homeProb}%</span>
+              <span>${p.awayTeam} ${awayProb}%</span>
+            </div>
+
+            <div class="reason">${p.reasoning}</div>
+          </div>
         </div>
       `;
     })

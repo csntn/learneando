@@ -1,0 +1,384 @@
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --bg2: #12121a;
+      --card: #181826;
+      --card-hover: #1f1f34;
+      --border: #2a2a3e;
+      --border-hover: #3a3a55;
+      --text: #f0f0f5;
+      --muted: #7878a0;
+      --gold: #f5b300;
+      --gold-hover: #d49a00;
+      --green: #00c853;
+      --green-bg: rgba(0,200,83,0.08);
+      --green-border: rgba(0,200,83,0.3);
+      --red: #ff1744;
+      --blue: #2979ff;
+      --blue-bg: rgba(41,121,255,0.08);
+      --blue-border: rgba(41,121,255,0.3);
+      --gold-bg: rgba(245,179,0,0.08);
+      --gold-border: rgba(245,179,0,0.3);
+    }
+
+    html {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      background-image:
+        radial-gradient(ellipse at 50% 0%, rgba(245,179,0,0.04) 0%, transparent 60%),
+        radial-gradient(ellipse at 75% 50%, rgba(41,121,255,0.02) 0%, transparent 50%);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    .wrap {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 1rem 4rem;
+    }
+
+    /* HEADER - bookmaker style */
+    header {
+      background: linear-gradient(180deg, #12121a 0%, transparent 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 1rem 1.2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      position: relative;
+    }
+
+    header::after {
+      content: '';
+      display: block;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      position: absolute;
+      bottom: -1px;
+      left: 25%;
+      right: 25%;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      text-transform: uppercase;
+    }
+
+    header h1 .gold {
+      color: var(--gold);
+    }
+
+    header p {
+      color: var(--muted);
+      margin-top: 0.4rem;
+      font-size: 0.78rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* CONTROLS */
+    .controls {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+
+    input[type="date"] {
+      padding: 0.65rem 1rem;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-size: 0.85rem;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      outline: none;
+      transition: border-color 0.2s;
+      cursor: pointer;
+    }
+
+    input[type="date"]:focus {
+      border-color: var(--gold);
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(0.7);
+      cursor: pointer;
+    }
+
+    button {
+      padding: 0.65rem 1.8rem;
+      border: none;
+      background: var(--gold);
+      color: #0a0a0f;
+      font-size: 0.8rem;
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    button:hover {
+      background: var(--gold-hover);
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    button:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* STATUS */
+    #status {
+      text-align: center;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      min-height: 1.4rem;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    /* GRID */
+    .grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 640px) {
+      .grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* CARD */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      position: relative;
+      transition: all 0.2s;
+    }
+
+    .card:hover {
+      background: var(--card-hover);
+      border-color: var(--border-hover);
+    }
+
+    .card-top {
+      height: 3px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+    }
+
+    .top-home { background: var(--green); }
+    .top-away { background: var(--blue); }
+    .top-draw { background: var(--gold); }
+
+    .card-body {
+      padding: 1rem 1rem 0.8rem;
+    }
+
+    /* Card header */
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+    }
+
+    .card-header .badge {
+      background: var(--bg2);
+      padding: 0.15rem 0.5rem;
+      border: 1px solid var(--border);
+      font-weight: 600;
+    }
+
+    /* MATCHUP */
+    .matchup {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.4rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .team-block {
+      flex: 1;
+      text-align: center;
+    }
+
+    .team-block .name {
+      font-weight: 700;
+      font-size: 0.95rem;
+      line-height: 1.3;
+    }
+
+    .team-block .meta {
+      font-size: 0.65rem;
+      color: var(--muted);
+      margin-top: 1px;
+    }
+
+    .score-block {
+      font-size: 1.5rem;
+      font-weight: 900;
+      padding: 0 0.5rem;
+      white-space: nowrap;
+      letter-spacing: -1px;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    /* ODDS ROW - 1X2 bookmaker style */
+    .odds-row {
+      display: flex;
+      gap: 0.35rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .odds-cell {
+      flex: 1;
+      text-align: center;
+      padding: 0.4rem 0.2rem;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      transition: all 0.15s;
+      cursor: default;
+    }
+
+    .odds-cell .label {
+      display: block;
+      color: var(--muted);
+      font-size: 0.55rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 1px;
+    }
+
+    .odds-cell .value {
+      display: block;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .odds-cell.active-home {
+      border-color: var(--green-border);
+      background: var(--green-bg);
+    }
+
+    .odds-cell.active-away {
+      border-color: var(--blue-border);
+      background: var(--blue-bg);
+    }
+
+    .odds-cell.active-draw {
+      border-color: var(--gold-border);
+      background: var(--gold-bg);
+    }
+
+    /* VERDICT */
+    .verdict {
+      text-align: center;
+      font-weight: 700;
+      padding: 0.45rem;
+      margin-bottom: 0.7rem;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      border: 1px solid;
+    }
+
+    .v-home {
+      border-color: var(--green-border);
+      background: var(--green-bg);
+      color: var(--green);
+    }
+
+    .v-away {
+      border-color: var(--blue-border);
+      background: var(--blue-bg);
+      color: var(--blue);
+    }
+
+    .v-draw {
+      border-color: var(--gold-border);
+      background: var(--gold-bg);
+      color: var(--gold);
+    }
+
+    /* PROBABILITY BAR */
+    .prob-bar {
+      display: flex;
+      height: 3px;
+      overflow: hidden;
+      margin-bottom: 0.25rem;
+      background: var(--border);
+    }
+
+    .prob-home { background: var(--green); }
+    .prob-away { background: var(--blue); }
+
+    .prob-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.6rem;
+      color: var(--muted);
+      margin-bottom: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* REASONING */
+    .reason {
+      font-size: 0.72rem;
+      color: var(--muted);
+      line-height: 1.6;
+      border-top: 1px solid var(--border);
+      padding: 0.6rem 0 0;
+      margin-top: 0;
+    }
+
+    /* EMPTY STATE */
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 3rem 1rem;
+      font-size: 0.85rem;
+      grid-column: 1 / -1;
+    }
+
+    /* SPINNER */
+    .spinner {
+      width: 26px;
+      height: 26px;
+      border: 2px solid var(--border);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin: 3rem auto;
+      grid-column: 1 / -1;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }

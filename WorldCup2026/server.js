@@ -18,7 +18,7 @@ app.use(express.static(path.join(__dirname, "public")));
 const AF_BASE = "https://v3.football.api-sports.io";
 const afHeaders = { "x-apisports-key": process.env.APISPORTS_KEY };
 
-// ID de la Copa del Mundo en API-Football. Pon null para NO filtrar por liga.
+// ID de la Copa del Mundo en API-Football.
 const WORLD_CUP_LEAGUE_ID = 1;
 
 // ---------- Utilidades ----------
@@ -44,7 +44,7 @@ async function afFetch(endpoint, retries = 2) {
     // API-Football mete los errores dentro del cuerpo, no en el status HTTP
     if (data.errors && Object.keys(data.errors).length > 0) {
       const msg = JSON.stringify(data.errors);
-      // El límite diario suele venir aquí
+      // Límite diario
       throw new Error(`API-Football error: ${msg}`);
     }
 
@@ -55,7 +55,7 @@ async function afFetch(endpoint, retries = 2) {
 
 // ---------- Forma de un equipo (últimos partidos) ----------
 // ---------- Tabla de fuerza de selecciones (estilo Elo, ~2026) ----------
-// Valores aproximados. Ajústalos a tu gusto. Más alto = más fuerte.
+// Valores aproximados. Se pueden ajustar a conveniencia. Más alto = más fuerte.
 const TEAM_RATINGS = {
   "France": 2050, "Spain": 2040, "Argentina": 2035, "England": 2010,
   "Brazil": 2000, "Portugal": 1990, "Netherlands": 1980, "Belgium": 1950,
