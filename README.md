@@ -1,4 +1,4 @@
-﻿# Learneandoç
+﻿# Learneando
  
 ## Repositorio de proyectos variados sobre curiosidades y/o aprendizajes. 
 
